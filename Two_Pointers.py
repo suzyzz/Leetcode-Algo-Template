@@ -50,6 +50,16 @@ for i in range(n):
     if i 到 j 之间满足条件:
         处理 i 到 j 这段区间
 
+# 数据流问题 （Data Stream Problem) - 链表重点
+slow, fast = head, head.next
+while fast != None and fast.next != None:
+    slow = slow.next
+    fast = fast.next.next
+
+return slow
+
+
+
  # 合并双指针
  def merge(list1, list2):
     new_list = []
@@ -88,14 +98,16 @@ class Solution:
         self.quickSort(A, 0, len(A) -  1)
     
     def quickSort(self, A, start, end):
+        # 如果是一个数就不用排了
         if start >= end:
             return
         left, right = start, end
         # key point 1: pivot is the value, not the index
         pivot = A[(start + end) // 2]
-        # key point 2: every time you compare left & right, it should be left <= right not left < right
+        # key point 2: every time you compare left & right, it should be left <= right not left < right， 
+        # 为了让结果必须交叉 再执行一次 left += 1 或者 right -=， 不然就会有 left = right and start - left 重复， right - end 重复
         while left <= right:
-            while left <= right and A[left] < pivot:
+            while left <= right and A[left] < pivot: #尽量让中间值均分， 极端情况 1，1，1，1，1， 如果是<= 这里第一个while就会直接走到最末
                 left += 1
             while left <= right and A[right] > pivot:
                 right -= 1
